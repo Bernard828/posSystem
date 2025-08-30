@@ -29,11 +29,12 @@ public class Product {
         return quantity;
     }
 
-    public void setQuantity(int quantity)
-    {this.quantity = quantity;}
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     @Override
     public String toString() {
-        return name + "("+id+") - $"+price+" [Stock: " + quantity + "]";
+        return name + "(" + id + ") - $" + price + " [Stock: " + quantity + "]";
     }
 }
