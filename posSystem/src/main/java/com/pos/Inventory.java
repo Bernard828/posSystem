@@ -6,6 +6,10 @@ import java.util.List;
 public class Inventory {
     private List<Product> products;
 
+    // public List<Product> getProducts() {
+    //     return products;
+    // }
+
     public Inventory() {
         this.products = new ArrayList<>();
     }
@@ -28,5 +32,20 @@ public class Inventory {
         for (Product product : products) {
             System.out.println(product);
         }
+    }
+
+    public void showInventory(){
+        if(products.isEmpty()){
+            System.out.println("Inventory is empty.");
+        } else {
+            System.out.println("Available Product:");
+            for (int i = 0; i <products.size(); i++){
+                System.out.println((i + 1) + ". " + products.get(i));
+            }
+        }
+    }
+    
+    public List<Product> getProducts() {
+        return products;
     }
 }

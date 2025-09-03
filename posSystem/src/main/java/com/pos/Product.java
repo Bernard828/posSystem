@@ -35,6 +35,6 @@ public class Product {
 
     @Override
     public String toString() {
-        return name + "(" + id + ") - $" + price + " [Stock: " + quantity + "]";
+        return name + " (" + id+ ") - $" + price + " [Stock: " + quantity + "]";
     }
 }
