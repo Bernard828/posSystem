@@ -1,1 +1,0 @@
-print("Python POS serivice starting...")

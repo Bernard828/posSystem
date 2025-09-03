@@ -1,0 +1,7 @@
+{
+    "editor.quickSuggestions": {
+        "other": "off"
+    },
+    "editor.quickSuggestionsDelay": 45,
+    "editor.suggest.selectionMode": "never"
+}
