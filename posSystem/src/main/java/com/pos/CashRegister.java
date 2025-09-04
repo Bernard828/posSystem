@@ -17,18 +17,44 @@ public class CashRegister {
 
     public void start() {
         System.out.println("Cash Register Started.");
-        inventory.showInventory();
+        //inventory.showInventory();
+        Sale sale = new Sale();
 
-        System.out.print("Select product number: ");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        boolean shopping =  true;
 
-        if(choice > 0 && choice <= inventory.getProducts().size()){
-            Product selected = inventory.getProducts().get(choice - 1);
-            System.out.println("You selcted: " + selected);
-        } else{
-            System.out.println("Invalid choice.");
+        while(shopping){
+            inventory.showInventory();
+
+            System.out.print("Select product number (or 0 to finish): ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if(choice == 0){
+                shopping = false;
+                sale.printReceipt();
+            }else if (choice > 0 && choice <= inventory.getProducts().size()) {
+                Product selected = inventory.getProducts().get(choice - 1);
+
+                System.out.print("Enter quantity: ");
+                int qty = scanner.nextInt();
+                scanner.nextLine();
+
+                sale.addProduct(selected, qty);
+                System.out.println("Added " + qty + " x " + selected.getName());
+            } else{
+                System.out.println("Invalid choice.");
+            }
+            
+            // if(choice > 0 && choice <= inventory.getProducts().size()){
+            //     Product selected = inventory.getProducts().get(choice - 1);
+            //     System.out.println("You selcted: " + selected);
+            // } else{
+            //     System.out.println("Invalid choice.");
+            // }
         }
+
+
+
 
         // System.out.print("Enter product name: ");
         // String name = scanner.nextLine();
