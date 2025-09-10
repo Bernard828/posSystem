@@ -13,16 +13,20 @@ public class CashRegister {
         inventory.addProduct(new Product("P001", "Apple", 0.99, 10));
         inventory.addProduct(new Product("P002", "Bread", 2.49, 5));
         inventory.addProduct(new Product("P003", "Milk", 3.19, 8));
+        inventory.addProduct(new Product("P004", "Soap", 1.50, 12));
+        inventory.addProduct(new Product("P005", "Eggs", 4.99, 56));
+        inventory.addProduct(new Product("P006", "Cheese", 3.27, 19));
+        inventory.addProduct(new Product("P007", "Cereal", 2.59, 20));
     }
 
     public void start() {
         System.out.println("Cash Register Started.");
-        //inventory.showInventory();
         Sale sale = new Sale();
+        //inventory.showInventory();
 
-        boolean shopping =  true;
+        boolean running =  true;
 
-        while(shopping){
+        while(running){
             inventory.showInventory();
 
             System.out.print("Select product number (or 0 to finish): ");
@@ -30,7 +34,7 @@ public class CashRegister {
             scanner.nextLine();
 
             if(choice == 0){
-                shopping = false;
+                running = false;
                 sale.printReceipt();
             }else if (choice > 0 && choice <= inventory.getProducts().size()) {
                 Product selected = inventory.getProducts().get(choice - 1);
