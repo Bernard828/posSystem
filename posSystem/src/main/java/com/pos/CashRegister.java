@@ -20,45 +20,92 @@ public class CashRegister {
     }
 
     public void start() {
-        System.out.println("Cash Register Started.");
-        Sale sale = new Sale();
-        //inventory.showInventory();
+        System.out.println("Welcome to the POS system!");
 
-        boolean running =  true;
+        // Sale sale = new Sale();
+        // System.out.println("Cash Register Started.");
+        // inventory.showInventory();
 
-        while(running){
-            inventory.showInventory();
+        boolean running = true;
 
-            System.out.print("Select product number (or 0 to finish): ");
-            int choice = scanner.nextInt();
+        while (running) {
+            System.out.println("\n--- POS MAIN MENU ---");
+            System.out.println("1. Show Inventory");
+            System.out.println("2. Start New Sale");
+            System.out.println("3. Exit");
+            System.out.println("Choose an option: ");
+
+            int option = scanner.nextInt();
             scanner.nextLine();
 
-            if(choice == 0){
-                running = false;
-                sale.printReceipt();
-            }else if (choice > 0 && choice <= inventory.getProducts().size()) {
-                Product selected = inventory.getProducts().get(choice - 1);
+            switch (option) {
+                case 1:
+                    inventory.showInventory();
+                    break;
+                case 2:
+                    Sale sale = new Sale(); // Start a new sale
+                    boolean shopping = true;
 
-                System.out.print("Enter quantity: ");
-                int qty = scanner.nextInt();
-                scanner.nextLine();
+                    while (shopping) {
+                        inventory.showInventory();
+                        System.out.print("Enter product number (Press 0 to finsih): ");
+                        int choice = scanner.nextInt();
+                        scanner.nextLine();
 
-                sale.addProduct(selected, qty);
-                System.out.println("Added " + qty + " x " + selected.getName());
-            } else{
-                System.out.println("Invalid choice.");
+                        if (choice == 0) {
+                            shopping = false;
+                            sale.printReceipt();
+                        } else if (choice > 0 && choice <= inventory.getProducts().size()) {
+                            Product selected = inventory.getProducts().get(choice - 1);
+                            System.outprint("Enter quantity: ");
+                            int qty = scanner.necxtInt();
+                            scanner.nextLine();
+
+                            sale.addProduct(selected, qty);
+                            System.out.println("Added " + qty + " x " + selected.getName());
+                        } else {
+                            System.out.println("Invalid choice.");
+                        }
+                    }
+                    break;
+                case 3:
+                    running = false;
+                    System.out.println("Exiting POS System. Goodbye!");
+                    break;
+                    
+                default:
+                    System.out.println("Invalid option. Please try again.");
             }
-            
-            // if(choice > 0 && choice <= inventory.getProducts().size()){
-            //     Product selected = inventory.getProducts().get(choice - 1);
-            //     System.out.println("You selcted: " + selected);
+            // -----------STAGE TWO -----------
+            // inventory.showInventory();
+
+            // System.out.print("Select product number (or 0 to finish): ");
+            // int choice = scanner.nextInt();
+            // scanner.nextLine();
+
+            // if(choice == 0){
+            // running = false;
+            // sale.printReceipt();
+            // }else if (choice > 0 && choice <= inventory.getProducts().size()) {
+            // Product selected = inventory.getProducts().get(choice - 1);
+
+            // System.out.print("Enter quantity: ");
+            // int qty = scanner.nextInt();
+            // scanner.nextLine();
+
+            // sale.addProduct(selected, qty);
+            // System.out.println("Added " + qty + " x " + selected.getName());
             // } else{
-            //     System.out.println("Invalid choice.");
+            // System.out.println("Invalid choice.");
+            // }
+            // ------------STAGE ONE----------------
+            // if(choice > 0 && choice <= inventory.getProducts().size()){
+            // Product selected = inventory.getProducts().get(choice - 1);
+            // System.out.println("You selcted: " + selected);
+            // } else{
+            // System.out.println("Invalid choice.");
             // }
         }
-
-
-
 
         // System.out.print("Enter product name: ");
         // String name = scanner.nextLine();
@@ -67,50 +114,50 @@ public class CashRegister {
     }
 
     // public static void main(String[] args) {
-    //     Scanner scanner = new Scanner(System.in);
+    // Scanner scanner = new Scanner(System.in);
 
-    //     // Create Inventory
-    //     Inventory inventory = new Inventory();
-    //     inventory.addProduct(new Product("P001", "Apple", 0.99, 10));
-    //     inventory.addProduct(new Product("P002", "Bread", 2.49, 5));
-    //     inventory.addProduct(new Product("P003", "Milk", 3.19, 8));
+    // // Create Inventory
+    // Inventory inventory = new Inventory();
+    // inventory.addProduct(new Product("P001", "Apple", 0.99, 10));
+    // inventory.addProduct(new Product("P002", "Bread", 2.49, 5));
+    // inventory.addProduct(new Product("P003", "Milk", 3.19, 8));
 
-    //     boolean running = true;
+    // boolean running = true;
 
-    //     while (running) {
-    //         System.out.println("\n--- POS System ---");
-    //         inventory.listProducts();
-    //         System.out.println("Start a new sale? (yes/no)");
-    //         String choice = scanner.nextLine();
+    // while (running) {
+    // System.out.println("\n--- POS System ---");
+    // inventory.listProducts();
+    // System.out.println("Start a new sale? (yes/no)");
+    // String choice = scanner.nextLine();
 
-    //         if (choice.equalsIgnoreCase("y")) {
-    //             Sale sale = new Sale();
-    //             boolean shopping = true;
+    // if (choice.equalsIgnoreCase("y")) {
+    // Sale sale = new Sale();
+    // boolean shopping = true;
 
-    //             while (shopping) {
-    //                 System.out.println("Enter product ID (or 'done' to finish): ");
-    //                 String productId = scanner.nextLine();
+    // while (shopping) {
+    // System.out.println("Enter product ID (or 'done' to finish): ");
+    // String productId = scanner.nextLine();
 
-    //                 if (productId.equalsIgnoreCase("done")) {
-    //                     shopping = false;
-    //                     sale.printReceipt();
-    //                 } else {
-    //                     Product product = inventory.getProductById(productId);
-    //                     if (product != null) {
-    //                         System.out.println("Enter quantity: ");
-    //                         int qty = Integer.parseInt(scanner.nextLine());
-    //                         sale.addProduct(product, qty);
-    //                     } else {
-    //                         System.out.println("Invalid product ID.");
-    //                     }
-    //                 }
-    //             }
-    //         } else {
-    //             running = false;
-    //             System.out.println("POS System shutting down...");
-    //         }
-    //     }
-    //     scanner.close();
+    // if (productId.equalsIgnoreCase("done")) {
+    // shopping = false;
+    // sale.printReceipt();
+    // } else {
+    // Product product = inventory.getProductById(productId);
+    // if (product != null) {
+    // System.out.println("Enter quantity: ");
+    // int qty = Integer.parseInt(scanner.nextLine());
+    // sale.addProduct(product, qty);
+    // } else {
+    // System.out.println("Invalid product ID.");
+    // }
+    // }
+    // }
+    // } else {
+    // running = false;
+    // System.out.println("POS System shutting down...");
+    // }
+    // }
+    // scanner.close();
     // }
 
     // //Create some products
