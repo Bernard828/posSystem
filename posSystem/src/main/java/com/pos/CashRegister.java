@@ -20,6 +20,7 @@ public class CashRegister {
     }
 
     public void start() {
+        // -----STAGE THREE------
         System.out.println("Welcome to the POS system!");
 
         // Sale sale = new Sale();
