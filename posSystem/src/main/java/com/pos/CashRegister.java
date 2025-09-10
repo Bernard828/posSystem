@@ -13,22 +13,52 @@ public class CashRegister {
         inventory.addProduct(new Product("P001", "Apple", 0.99, 10));
         inventory.addProduct(new Product("P002", "Bread", 2.49, 5));
         inventory.addProduct(new Product("P003", "Milk", 3.19, 8));
+        inventory.addProduct(new Product("P004", "Soap", 1.50, 12));
+        inventory.addProduct(new Product("P005", "Eggs", 4.99, 56));
+        inventory.addProduct(new Product("P006", "Cheese", 3.27, 19));
+        inventory.addProduct(new Product("P007", "Cereal", 2.59, 20));
     }
 
     public void start() {
         System.out.println("Cash Register Started.");
-        inventory.showInventory();
+        Sale sale = new Sale();
+        //inventory.showInventory();
 
-        System.out.print("Select product number: ");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        boolean running =  true;
 
-        if(choice > 0 && choice <= inventory.getProducts().size()){
-            Product selected = inventory.getProducts().get(choice - 1);
-            System.out.println("You selcted: " + selected);
-        } else{
-            System.out.println("Invalid choice.");
+        while(running){
+            inventory.showInventory();
+
+            System.out.print("Select product number (or 0 to finish): ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            if(choice == 0){
+                running = false;
+                sale.printReceipt();
+            }else if (choice > 0 && choice <= inventory.getProducts().size()) {
+                Product selected = inventory.getProducts().get(choice - 1);
+
+                System.out.print("Enter quantity: ");
+                int qty = scanner.nextInt();
+                scanner.nextLine();
+
+                sale.addProduct(selected, qty);
+                System.out.println("Added " + qty + " x " + selected.getName());
+            } else{
+                System.out.println("Invalid choice.");
+            }
+            
+            // if(choice > 0 && choice <= inventory.getProducts().size()){
+            //     Product selected = inventory.getProducts().get(choice - 1);
+            //     System.out.println("You selcted: " + selected);
+            // } else{
+            //     System.out.println("Invalid choice.");
+            // }
         }
+
+
+
 
         // System.out.print("Enter product name: ");
         // String name = scanner.nextLine();
