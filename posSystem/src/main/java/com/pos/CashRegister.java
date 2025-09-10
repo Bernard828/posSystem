@@ -20,6 +20,7 @@ public class CashRegister {
     }
 
     public void start() {
+        // -----STAGE THREE------
         System.out.println("Welcome to the POS system!");
 
         // Sale sale = new Sale();
@@ -57,8 +58,8 @@ public class CashRegister {
                             sale.printReceipt();
                         } else if (choice > 0 && choice <= inventory.getProducts().size()) {
                             Product selected = inventory.getProducts().get(choice - 1);
-                            System.outprint("Enter quantity: ");
-                            int qty = scanner.necxtInt();
+                            System.out.print("Enter quantity: ");
+                            int qty = scanner.nextInt();
                             scanner.nextLine();
 
                             sale.addProduct(selected, qty);
@@ -72,7 +73,7 @@ public class CashRegister {
                     running = false;
                     System.out.println("Exiting POS System. Goodbye!");
                     break;
-                    
+
                 default:
                     System.out.println("Invalid option. Please try again.");
             }
