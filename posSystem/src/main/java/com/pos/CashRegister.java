@@ -33,7 +33,8 @@ public class CashRegister {
             System.out.println("\n--- POS MAIN MENU ---");
             System.out.println("1. Show Inventory");
             System.out.println("2. Start New Sale");
-            System.out.println("3. Exit");
+            System.out.println("3. Restock Products");
+            System.out.println("4. Exit");
             System.out.println("Choose an option: ");
 
             int option = scanner.nextInt();
@@ -43,6 +44,7 @@ public class CashRegister {
                 case 1:
                     inventory.showInventory();
                     break;
+
                 case 2:
                     Sale sale = new Sale(); // Start a new sale
                     boolean shopping = true;
@@ -69,7 +71,29 @@ public class CashRegister {
                         }
                     }
                     break;
+
                 case 3:
+                    System.out.print("Enter admin password: ");
+                    String password = scanner.nextLine();
+                    if (password.equals("admin123")) {
+                        inventory.showInventory();
+                        System.out.print("Enter product number to restock: ");
+                        int restockChoice = scanner.nextInt();
+                        scanner.nextLine();
+
+                        if (restockChoice > 0 && restockChoice <= inventory.getProducts().size()) {
+                            System.out.print("Enter quantity to add: ");
+                            int qty = scanner.nextInt();
+                            scanner.nextLine();
+                            inventory.restockProduct(restockChoice - 1, qty);
+                            System.out.println("Product restocked successfully!");
+                        } else {
+                            System.out.println("Unauthorized access!");
+                        }
+                    }
+                    break;
+
+                case 4:
                     running = false;
                     System.out.println("Exiting POS System. Goodbye!");
                     break;

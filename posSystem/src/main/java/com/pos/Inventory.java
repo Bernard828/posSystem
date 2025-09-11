@@ -6,16 +6,16 @@ import java.util.List;
 public class Inventory {
     private List<Product> products;
 
-    // public List<Product> getProducts() {
-    //     return products;
-    // }
-
     public Inventory() {
         this.products = new ArrayList<>();
     }
 
     public void addProduct(Product product) {
         products.add(product);
+    }
+
+    public List<Product> getProducts() {
+        return products;
     }
 
     public Product getProductById(String id) {
@@ -34,18 +34,42 @@ public class Inventory {
         }
     }
 
-    public void showInventory(){
-        if(products.isEmpty()){
+    public void showInventory() {
+        if (products.isEmpty()) {
             System.out.println("Inventory is empty.");
         } else {
-            System.out.println("Available Product:");
-            for (int i = 0; i <products.size(); i++){
+            System.out.println("Available Products:");
+            for (int i = 0; i < products.size(); i++) {
                 System.out.println((i + 1) + ". " + products.get(i));
             }
         }
     }
-    
-    public List<Product> getProducts() {
-        return products;
+
+    // ----------STAGE TWO----------------
+
+    // REDUCE STOCK
+    public boolean reduceStock(Product product, int qty) {
+        if (product.getQuantity() >= qty) {
+            product.setQuantity(product.getQuantity() - qty);
+            return true;
+        }
+        return false;
     }
+
+    // RESTOCK INVENTORY
+    public void restockProduct(int index, int qty) {
+        if (index >= 0 && index < products.size()) {
+            Product product = products.get(index);
+            product.setQuantity(product.getQuantity() + qty);
+        }
+    }
+
+    // -----STAGE ONE ---------
+    // public List<Product> getProducts() {
+    // return products;
+    // }
+
+    // public List<Product> getProducts() {
+    // return products;
+    // }
 }
