@@ -31,6 +31,7 @@ public class Inventory {
         System.out.println("Available Products:");
         for (Product product : products) {
             System.out.println(product);
+            System.out.println("\n");
         }
     }
 

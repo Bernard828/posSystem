@@ -60,12 +60,18 @@ public class CashRegister {
                             sale.printReceipt();
                         } else if (choice > 0 && choice <= inventory.getProducts().size()) {
                             Product selected = inventory.getProducts().get(choice - 1);
+
                             System.out.print("Enter quantity: ");
                             int qty = scanner.nextInt();
                             scanner.nextLine();
-
-                            sale.addProduct(selected, qty);
-                            System.out.println("Added " + qty + " x " + selected.getName());
+                            
+                            // --------PRODUCT QTY SCALES INVENTORY----------
+                            if (inventory.reduceStock(selected, qty)) {
+                                sale.addProduct(selected, qty);
+                                System.out.println("Added " + qty + " x " + selected.getName());
+                            } else {
+                                System.out.println("Not enough stock available!");
+                            }
                         } else {
                             System.out.println("Invalid choice.");
                         }
