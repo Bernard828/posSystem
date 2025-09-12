@@ -5,7 +5,7 @@ import java.sql.*;
 public class Database {
     private static final String URL = "jdbc:sqlite:pos.db";
 
-    public static Conncection connect() {
+    public static Connection connect() {
         try {
             return DriverManager.getConnection(URL);
         } catch (SQLException e) {
@@ -21,7 +21,7 @@ public class Database {
             "id TEXT PRIMARY KEY, " +
             "name TEXT NOT NULL, " +
             "price REAL NOT NULL, " +
-            "quantity INTEGER NOT NULL");
+            "quantity INTEGER NOT NULL)";
             stmt.execute(sql);
         }
         catch(SQLException e){
