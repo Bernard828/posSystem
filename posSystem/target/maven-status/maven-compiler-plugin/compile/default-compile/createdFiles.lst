@@ -1,1 +1,7 @@
+com\pos\Database.class
+com\pos\Inventory.class
 com\pos\App.class
+com\pos\CashRegister.class
+com\pos\Sale.class
+com\pos\Manager.class
+com\pos\Product.class

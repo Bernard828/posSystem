@@ -17,7 +17,7 @@ public class Inventory {
         products.clear();
         try (Connection conn = Database.connect();
                 Statement stmt = conn.createStatement();
-                ResultSet  rs = stmt.executeQuery("SELECT * FROM products")) {
+                ResultSet rs = stmt.executeQuery("SELECT * FROM products")) {
 
             while (rs.next()) {
                 products.add(new Product(
@@ -108,6 +108,19 @@ public class Inventory {
         if (index >= 0 && index < products.size()) {
             Product product = products.get(index);
             product.setQuantity(product.getQuantity() + qty);
+        }
+    }
+
+    // REMOVE PRODUCT
+    public void removeProduct(String id) {
+        products.removeIf(p -> p.getId().equals(id));
+
+        try (Connection conn = Database.connect();
+                PreparedStatement stmt = conn.prepareStatement("DELETE FROM  products WHERE id = ?")) {
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

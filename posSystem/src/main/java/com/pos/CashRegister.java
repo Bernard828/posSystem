@@ -181,6 +181,27 @@ public class CashRegister {
 
         // System.out.println("Product restocked successfuly");
     }
+
+    private void removeProduct() {
+        System.out.print("Enter product ID to remove: ");
+        String id = scanner.nextLine();
+
+        Product p = inventory.getProductById(id);
+        if (p == null) {
+            System.out.println("Product not found!");
+            return;
+        }
+
+        System.out.print("Are you sure you want to remove " + p.getName() + "? (y/n): ");
+        String confirm = scanner.nextLine();
+        if (!confirm.equalsIgnoreCase("y")) {
+            System.out.println("Cancelled.");
+            return;
+        }
+
+        inventory.removeProduct(id);
+        System.out.println("Product removed successfully.");
+    }
 }
 // -------STAGE THREE-----
 // System.out.println("Welcome to the POS system!");
