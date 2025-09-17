@@ -1,6 +1,8 @@
 package com.pos;
 
 import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,7 @@ public class Inventory {
     // -------------STAGE THREE--------------
     public void loadProductsFromDatabase() {
         products.clear();
-        try (Connection conn = Database.connect();
+        try (Connection conn = Database.getConnection();
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery("SELECT * FROM products")) {
 
@@ -33,7 +35,7 @@ public class Inventory {
 
     public void addProduct(Product product) {
         // products.add(product);
-        try (Connection conn = Database.connect();
+        try (Connection conn = Database.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(
                         "INSERT INTO products(id, name, price, quantity) VALUES(?, ?, ?, ?)")) {
 
@@ -88,7 +90,7 @@ public class Inventory {
             int newQty = product.getQuantity() - qty;
             product.setQuantity(product.getQuantity() - qty);
 
-            try (Connection conn = Database.connect();
+            try (Connection conn = Database.getConnection();
                     PreparedStatement pstmt = conn.prepareStatement(
                             "UPDATE products SET quantity = ? WHERE id = ?")) {
                 pstmt.setInt(1, newQty);
@@ -115,7 +117,7 @@ public class Inventory {
     public void removeProduct(String id) {
         products.removeIf(p -> p.getId().equals(id));
 
-        try (Connection conn = Database.connect();
+        try (Connection conn = Database.getConnection();
                 PreparedStatement stmt = conn.prepareStatement("DELETE FROM  products WHERE id = ?")) {
             stmt.setString(1, id);
             stmt.executeUpdate();
