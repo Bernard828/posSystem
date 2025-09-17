@@ -1,5 +1,8 @@
 package com.pos;
 
+import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +11,42 @@ public class Inventory {
 
     public Inventory() {
         this.products = new ArrayList<>();
+        loadProductsFromDatabase();
+    }
+
+    // -------------STAGE THREE--------------
+    public void loadProductsFromDatabase() {
+        products.clear();
+        try (Connection conn = Database.getConnection();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM products")) {
+
+            while (rs.next()) {
+                products.add(new Product(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getInt("quantity")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addProduct(Product product) {
+        // products.add(product);
+        try (Connection conn = Database.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(
+                        "INSERT INTO products(id, name, price, quantity) VALUES(?, ?, ?, ?)")) {
+
+            pstmt.setString(1, product.getId());
+            pstmt.setString(2, product.getName());
+            pstmt.setDouble(3, product.getPrice());
+            pstmt.setInt(4, product.getQuantity());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         products.add(product);
     }
 
@@ -51,7 +87,19 @@ public class Inventory {
     // REDUCE STOCK
     public boolean reduceStock(Product product, int qty) {
         if (product.getQuantity() >= qty) {
+            int newQty = product.getQuantity() - qty;
             product.setQuantity(product.getQuantity() - qty);
+
+            try (Connection conn = Database.getConnection();
+                    PreparedStatement pstmt = conn.prepareStatement(
+                            "UPDATE products SET quantity = ? WHERE id = ?")) {
+                pstmt.setInt(1, newQty);
+                pstmt.setString(2, product.getId());
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
             return true;
         }
         return false;
@@ -62,6 +110,19 @@ public class Inventory {
         if (index >= 0 && index < products.size()) {
             Product product = products.get(index);
             product.setQuantity(product.getQuantity() + qty);
+        }
+    }
+
+    // REMOVE PRODUCT
+    public void removeProduct(String id) {
+        products.removeIf(p -> p.getId().equals(id));
+
+        try (Connection conn = Database.getConnection();
+                PreparedStatement stmt = conn.prepareStatement("DELETE FROM  products WHERE id = ?")) {
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
