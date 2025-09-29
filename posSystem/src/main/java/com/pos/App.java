@@ -11,6 +11,6 @@ public class App {
         System.out.println("Welcome to the POS System!");
 
         CashRegister CashRegister = new CashRegister();
-        CashRegister.start();
+        CashRegister.runPOS();
     }
 }

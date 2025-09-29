@@ -93,51 +93,109 @@ public class Inventory {
         }
     }
 
-    public void startSale() {
-        Sale sale = new Sale(); // Start a new sale
-        boolean shopping = true;
-
-        while (shopping) {
-            showInventory();
-            System.out.print("Enter product number (Press 0 to finsih): ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-
-            if (choice == 0) {
-                shopping = false;
-                sale.printReceipt();
-            } else if (choice > 0 && choice <= getProducts().size()) {
-                Product selected = getProducts().get(choice - 1);
-
-                System.out.print("Enter quantity: ");
-                int qty = scanner.nextInt();
-                scanner.nextLine();
-
-                // --------PRODUCT QTY SCALES INVENTORY----------
-                if (reduceStock(selected, qty)) {
-                    sale.addProduct(selected, qty);
-                    System.out.println("Added " + qty + " x " + selected.getName());
-                } else {
-                    System.out.println("Not enough stock available!");
-                }
-            } else {
-                System.out.println("Invalid choice.");
-            }
+    // RESTOCK INVENTORY
+    public void restockItem(int index, int qty) {
+        if (index >= 0 && index < products.size()) {
+            Product product = products.get(index);
+            product.setQuantity(product.getQuantity() + qty);
         }
-        // if (products.isEmpty()) {
-        // System.out.println("Inventory is empty.");
+    }
+
+    public void restockProduct() {
+        showInventory();
+        System.out.print("Enter numeric product ID to restock: ");
+        String id = scanner.nextLine();
+
+        Product p = getProductById(id);
+        if (p == null) {
+            System.out.println("Product not found!");
+            return;
+        }
+        System.out.println("How manny " + p.getName() + " to add?");
+        int qty = scanner.nextInt();
+
+        // System.out.println("Are you sure you want to restock " + qty + " of " + p.getName() + "? (y/n): ");
+        // String confirm = scanner.nextLine();
+        // if(!confirm.equalsIgnoreCase("y")){
+        //     System.out.println("Cancelled.");
+        //     return;
+        // }
+        p.setQuantity(p.getQuantity() + qty);
+
+        // if (restockChoice > 0 && restockChoice <= getProducts().size()) {
+        //     System.out.print("Enter quantity to add: ");
+        //     int qty = scanner.nextInt();
+        //     scanner.nextLine();
+        //     restockItem(restockChoice - 1, qty);
+        //     System.out.println("Product restocked successfully!");
         // } else {
-        // System.out.println("\nShop 'till You Drop:");
-        // for (int i = 0; i < products.size(); i++) {
-        // System.out.println((i + 1) + ". " + products.get(i));
+        //     System.out.println("Unauthorized access!");
         // }
+
+        // -----------------OLD CODE----------------
+
+        // String id = scanner.nextLine();
+
+        // Product p = inventory.getProductById(id);
+        // if (p == null) {
+        // System.out.println("Product not found!");
+        // return;
         // }
+
+        // System.out.print("Enter quantity to add: ");
+        // int qty = scanner.nextInt();
+        // scanner.nextLine();
+
+        // p.setQuantity(p.getQuantity() + qty);
+        // inventory.updateProduct(p);
+
+        // System.out.println("Product restocked successfuly");
+    }
+
+    public void removeProduct() {
+        System.out.print("Enter product ID to remove: ");
+        String id = scanner.nextLine();
+
+        Product p = getProductById(id);
+        if (p == null) {
+            System.out.println("Product not found!");
+            return;
+        }
+
+        System.out.print("Are you sure you want to remove " + p.getName() + "? (y/n): ");
+        String confirm = scanner.nextLine();
+        if (!confirm.equalsIgnoreCase("y")) {
+            System.out.println("Cancelled.");
+            return;
+        }
+
+        removeProduct(id);
+        System.out.println("Product removed successfully.");
+    }
+
+    public void addNewProduct() {
+        System.out.print("Enter product ID: ");
+        String id = scanner.nextLine();
+
+        System.out.print("Enter product name: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Enter price: ");
+        double price = scanner.nextDouble();
+
+        System.out.print("Enter quantity: ");
+        int qty = scanner.nextInt();
+        scanner.nextLine();
+
+        Product newProduct = new Product(id, name, price, qty);
+        addProduct(newProduct);
+        System.out.println("Product added successfully.");
     }
 
     // ----------STAGE TWO----------------
 
     // REDUCE STOCK
-    public boolean reduceStock(Product product, int qty) {
+    public boolean reduceStockBool(Product product, int qty) {
         if (product.getQuantity() >= qty) {
             int newQty = product.getQuantity() - qty;
             product.setQuantity(product.getQuantity() - qty);
@@ -155,14 +213,6 @@ public class Inventory {
             return true;
         }
         return false;
-    }
-
-    // RESTOCK INVENTORY
-    public void restockProduct(int index, int qty) {
-        if (index >= 0 && index < products.size()) {
-            Product product = products.get(index);
-            product.setQuantity(product.getQuantity() + qty);
-        }
     }
 
     // REMOVE PRODUCT
