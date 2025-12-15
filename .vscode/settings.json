@@ -3,5 +3,6 @@
         "other": "off"
     },
     "editor.quickSuggestionsDelay": 45,
-    "editor.suggest.selectionMode": "never"
+    "editor.suggest.selectionMode": "never",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
